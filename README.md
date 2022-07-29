@@ -13,5 +13,7 @@ A way to decide if randomized movie gets added to watch list (Did you watch it o
 
 add pictures to match the movie (?)
 
+Style it so that it looks all pretty
+
 Code review
 
