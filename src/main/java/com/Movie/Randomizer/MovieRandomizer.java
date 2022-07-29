@@ -61,18 +61,28 @@ public class MovieRandomizer {
 
         String SQL = "SELECT moviename FROM movielist where NOT (datewatched IS NOT NULL)";
         ArrayList<String> list = new ArrayList<>();
+        Connection conn = null;
+        Statement stmt = null;
+        ResultSet rs = null;
 
-        try (Connection conn = connect();
-             Statement stmt = conn.createStatement();
-             ResultSet rs = stmt.executeQuery(SQL)) {
+        try { conn = connect();
+              stmt = conn.createStatement();
+              rs = stmt.executeQuery(SQL);
             while (rs.next()) {
                 list.add(rs.getString("moviename"));
 
             }
         } catch (SQLException ex) {
             System.out.println(ex.getMessage());
+        } finally {
+            try { rs.close(); } catch (Exception e) { /* Ignored */ }
+            try { stmt.close(); } catch (Exception e) { /* Ignored */ }
+            try { conn.close(); } catch (Exception e) { /* Ignored */ }
         }
+
+
         return list;
+
 
     }
 
@@ -82,9 +92,11 @@ public class MovieRandomizer {
             Connection conn = connect();
             Statement stmt = conn.createStatement();
             ResultSet rs = stmt.executeQuery(SQL);
-            while (rs.next()){
 
-                if (rs.wasNull()) {
+            while (rs.next()){
+                Date date = rs.getDate("datewatched");
+
+                if (date ==null) {
                     String query = "UPDATE movielist SET datewatched = ? WHERE moviename = " + "'" + randomMovie + "'";
                     System.out.println(query);
                     PreparedStatement preparedStmt = conn.prepareStatement(query);
@@ -92,7 +104,7 @@ public class MovieRandomizer {
                     preparedStmt.executeUpdate();
                     System.out.println("Added date watched");
             } else {
-                    System.out.println("You WATCHED THIS" + rs.getDate("datewatched"));
+                    System.out.println("You WATCHED THIS " + rs.getDate("datewatched"));
                 }
             }
 
@@ -216,8 +228,8 @@ public class MovieRandomizer {
         {
             randomMovie = movieList.get((int) (Math.random() * movieList.size()));
             //System.out.println(movieList);
-            //System.out.println(randomMovie + " on: " + LocalDate.now());
-            //InsertDate();
+            System.out.println(randomMovie + " on: " + LocalDate.now());
+            InsertDate();
         } else {
             System.out.println("Add movies to the database first you dingus");
         }
