@@ -88,10 +88,14 @@ public class MovieRandomizer {
 
     public static void InsertDate(){
         String SQL = "SELECT datewatched FROM movielist where moviename = " + "'" + randomMovie + "'";
+        Connection conn = null;
+        Statement stmt = null;
+        ResultSet rs = null;
+
         try {
-            Connection conn = connect();
-            Statement stmt = conn.createStatement();
-            ResultSet rs = stmt.executeQuery(SQL);
+            conn = connect();
+            stmt = conn.createStatement();
+            rs = stmt.executeQuery(SQL);
 
             while (rs.next()){
                 Date date = rs.getDate("datewatched");
@@ -110,6 +114,11 @@ public class MovieRandomizer {
 
         } catch (SQLException ex) {
             System.out.println(ex.getMessage());
+
+        } finally {
+            try { rs.close(); } catch (Exception e) { /* Ignored */ }
+            try { stmt.close(); } catch (Exception e) { /* Ignored */ }
+            try { conn.close(); } catch (Exception e) { /* Ignored */ }
         }
     }
 
@@ -120,15 +129,20 @@ public class MovieRandomizer {
         ArrayList<Date> listDate = new ArrayList<>();
         ArrayList<String> list = new ArrayList<>();
         HashSet<Date> h = new HashSet<>();
+        ResultSet rs = null;
+        ResultSet rsname = null;
+        Statement stmt = null;
+        Connection conn = null;
 
-        try{ ResultSet rs = executeSql(SQL);
+
+        try{ rs = executeSql(SQL);
             while (rs.next()) {
                 listDate.add(rs.getDate("datewatched"));
             }
             for (Date date : listDate){
                 if (date !=null && h.add(date)) {
                     String query = "SELECT moviename FROM movielist where datewatched = '" + date + "'";
-                    ResultSet rsname = executeSql(query);
+                    rsname = executeSql(query);
                     while (rsname.next()){
                         list.add(rsname.getString("moviename"));
                     }
@@ -136,6 +150,14 @@ public class MovieRandomizer {
             }
         } catch (SQLException ex) {
             System.out.println(ex.getMessage());
+        } finally {
+            try { rs.close(); } catch (Exception e) { /* Ignored */ }
+            try { rsname.close(); } catch (Exception e) { /* Ignored */ }
+            try { stmt.close(); } catch (Exception e) { /* Ignored */ }
+            try { conn.close(); } catch (Exception e) { /* Ignored */ }
+
+            System.out.println("Closed");
+
         }
         System.out.println(list);
         return list;
@@ -148,9 +170,11 @@ public class MovieRandomizer {
 
     public static ResultSet executeSql(String SQL){
         ResultSet rs = null;
+        Connection conn = null;
+        Statement stmt = null;
         try {
-            Connection conn = connect();
-            Statement stmt = conn.createStatement();
+            conn = connect();
+            stmt = conn.createStatement();
             rs = stmt.executeQuery(SQL);
         } catch (SQLException throwables) {
             throwables.printStackTrace();
@@ -239,28 +263,34 @@ public class MovieRandomizer {
     public static int yearOfMovie(){
         String SQL = "SELECT yearreleased FROM movielist where moviename = " + "'" + randomMovie + "'";
         int year = 0;
+        ResultSet rs = null;
         try {
-            ResultSet rs = executeSql(SQL);
+            rs = executeSql(SQL);
             while (rs.next()){
                 year = rs.getInt("yearreleased");
             }
 
         } catch (SQLException ex) {
             System.out.println(ex.getMessage());
+        } finally {
+            try { rs.close(); } catch (Exception e) { /* Ignored */ }
         }
         return year;
     }
     public static String urlMovie(){
         String SQL = "SELECT url FROM movielist where moviename = " + "'" + randomMovie + "'";
         String url = "";
+        ResultSet rs = null;
         try {
-            ResultSet rs = executeSql(SQL);
+            rs = executeSql(SQL);
             while (rs.next()){
                 url = rs.getString("url");
             }
 
         } catch (SQLException ex) {
             System.out.println(ex.getMessage());
+        } finally {
+            try { rs.close(); } catch (Exception e) { /* Ignored */ }
         }
         return url;
     }

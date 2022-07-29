@@ -60,6 +60,7 @@ public class MovieRandomizerController {
 
     public ArrayList<String> getMovieWatchedList() {
         return movieRandomizerService.getMoviesWatched();
+
     }
 
     @GetMapping("/")
