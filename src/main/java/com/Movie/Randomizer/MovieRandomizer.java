@@ -91,6 +91,7 @@ public class MovieRandomizer {
         Connection conn = null;
         Statement stmt = null;
         ResultSet rs = null;
+        PreparedStatement preparedStmt = null;
 
         try {
             conn = connect();
@@ -103,7 +104,7 @@ public class MovieRandomizer {
                 if (date ==null) {
                     String query = "UPDATE movielist SET datewatched = ? WHERE moviename = " + "'" + randomMovie + "'";
                     System.out.println(query);
-                    PreparedStatement preparedStmt = conn.prepareStatement(query);
+                    preparedStmt = conn.prepareStatement(query);
                     preparedStmt.setDate(1, Date.valueOf(LocalDate.now()));
                     preparedStmt.executeUpdate();
                     System.out.println("Added date watched");
@@ -118,7 +119,9 @@ public class MovieRandomizer {
         } finally {
             try { rs.close(); } catch (Exception e) { /* Ignored */ }
             try { stmt.close(); } catch (Exception e) { /* Ignored */ }
+            try { preparedStmt.close(); } catch (Exception e) { /* Ignored */ }
             try { conn.close(); } catch (Exception e) { /* Ignored */ }
+
         }
     }
 
@@ -264,6 +267,8 @@ public class MovieRandomizer {
         String SQL = "SELECT yearreleased FROM movielist where moviename = " + "'" + randomMovie + "'";
         int year = 0;
         ResultSet rs = null;
+        Connection conn = null;
+        Statement stmt = null;
         try {
             rs = executeSql(SQL);
             while (rs.next()){
@@ -274,6 +279,8 @@ public class MovieRandomizer {
             System.out.println(ex.getMessage());
         } finally {
             try { rs.close(); } catch (Exception e) { /* Ignored */ }
+            try { stmt.close(); } catch (Exception e) { /* Ignored */ }
+            try { conn.close(); } catch (Exception e) { /* Ignored */ }
         }
         return year;
     }
@@ -281,6 +288,8 @@ public class MovieRandomizer {
         String SQL = "SELECT url FROM movielist where moviename = " + "'" + randomMovie + "'";
         String url = "";
         ResultSet rs = null;
+        Connection conn = null;
+        Statement stmt = null;
         try {
             rs = executeSql(SQL);
             while (rs.next()){
@@ -291,6 +300,8 @@ public class MovieRandomizer {
             System.out.println(ex.getMessage());
         } finally {
             try { rs.close(); } catch (Exception e) { /* Ignored */ }
+            try { stmt.close(); } catch (Exception e) { /* Ignored */ }
+            try { conn.close(); } catch (Exception e) { /* Ignored */ }
         }
         return url;
     }
