@@ -26,7 +26,7 @@ public class MovieRandomizer {
     private static BufferedReader listReaderWatched;
     private static BufferedReader listReader;
     private static String randomMovie;
-    private static final String url = "jdbc:postgresql://localhost/movie";
+    private static final String url = "jdbc:postgres://qjjtfdeuydhopn:3a76285144b97f9926d477bf27aac9592273a9f2104d6166d121268d4e63ff37@ec2-44-206-214-233.compute-1.amazonaws.com:5432/d7b58conclli6i";
 
 
     public static void fillList(BufferedReader reader, ArrayList<String> mov)
