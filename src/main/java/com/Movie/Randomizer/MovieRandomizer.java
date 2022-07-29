@@ -26,7 +26,10 @@ public class MovieRandomizer {
     private static BufferedReader listReaderWatched;
     private static BufferedReader listReader;
     private static String randomMovie;
-    private static final String url = "jdbc:postgresql://ec2-44-206-214-233.compute-1.amazonaws.com/movie";
+    private static final String url = "jdbc:postgresql://ec2-44-206-214-233.compute-1.amazonaws.com/d7b58conclli6i";
+    private static final String username = "qjjtfdeuydhopn";
+    private static final String password = "3a76285144b97f9926d477bf27aac9592273a9f2104d6166d121268d4e63ff37";
+
 
 
     public static void fillList(BufferedReader reader, ArrayList<String> mov)
@@ -128,7 +131,7 @@ public class MovieRandomizer {
     }
 
     public static Connection connect() throws SQLException {
-        return DriverManager.getConnection(url);
+        return DriverManager.getConnection(url, username, password);
     }
 
     public static ResultSet executeSql(String SQL){
