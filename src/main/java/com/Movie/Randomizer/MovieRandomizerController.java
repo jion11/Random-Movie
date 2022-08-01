@@ -63,6 +63,13 @@ public class MovieRandomizerController {
 
     }
 
+    @GetMapping("/movie/add")
+
+     public void addDateToMovie() {
+
+        movieRandomizerService.insertDate();
+    }
+
     @GetMapping("/")
 
     public String helloWorld() {

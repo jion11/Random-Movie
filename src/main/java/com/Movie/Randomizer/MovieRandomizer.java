@@ -154,8 +154,8 @@ public class MovieRandomizer {
         } catch (SQLException ex) {
             System.out.println(ex.getMessage());
         } finally {
-            try { rs.close(); } catch (Exception e) { /* Ignored */ }
-            try { rsname.close(); } catch (Exception e) { /* Ignored */ }
+            try { if (rs != null) { rs.close();} } catch (Exception e) { /* Ignored */ }
+            try { if (rs != null) { rsname.close(); } } catch (Exception e) { /* Ignored */ }
             try { stmt.close(); } catch (Exception e) { /* Ignored */ }
             try { conn.close(); } catch (Exception e) { /* Ignored */ }
 
@@ -256,7 +256,7 @@ public class MovieRandomizer {
             randomMovie = movieList.get((int) (Math.random() * movieList.size()));
             //System.out.println(movieList);
             System.out.println(randomMovie + " on: " + LocalDate.now());
-            InsertDate();
+            //InsertDate();
         } else {
             System.out.println("Add movies to the database first you dingus");
         }
