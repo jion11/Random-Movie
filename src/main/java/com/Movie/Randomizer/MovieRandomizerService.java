@@ -30,7 +30,7 @@ public class MovieRandomizerService {
 
     public String getUrl() {return "Letterboxd link: " + MovieRandomizer.urlMovie();}
 
-    public void insertDate() {MovieRandomizer.InsertDate();}
+    public String insertDate() {MovieRandomizer.InsertDate(); return "Date inserted for " + randMovie;}
 
 }
 

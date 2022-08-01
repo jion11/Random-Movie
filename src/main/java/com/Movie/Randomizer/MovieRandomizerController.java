@@ -65,9 +65,9 @@ public class MovieRandomizerController {
 
     @GetMapping("/movie/add")
 
-     public void addDateToMovie() {
+     public String addDateToMovie() {
 
-        movieRandomizerService.insertDate();
+       return movieRandomizerService.insertDate();
     }
 
     @GetMapping("/")
