@@ -9,6 +9,7 @@ import org.jsoup.select.Elements;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
+import javax.swing.plaf.nimbus.State;
 import java.io.*;
 import java.sql.*;
 import java.util.ArrayList;
@@ -29,6 +30,8 @@ public class MovieRandomizer {
     private static final String url = "jdbc:postgresql://ec2-44-206-214-233.compute-1.amazonaws.com/d7b58conclli6i";
     private static final String username = "qjjtfdeuydhopn";
     private static final String password = "3a76285144b97f9926d477bf27aac9592273a9f2104d6166d121268d4e63ff37";
+
+    //move executeSQL code to where it needs to be
 
 
 
@@ -136,16 +139,22 @@ public class MovieRandomizer {
         ResultSet rsname = null;
         Statement stmt = null;
         Connection conn = null;
+        Connection conn2 = null;
+        Statement stmt2 = null;
 
 
-        try{ rs = executeSql(SQL);
+        try{ conn = connect();
+            stmt = conn.createStatement();
+            rs = stmt.executeQuery(SQL);
             while (rs.next()) {
                 listDate.add(rs.getDate("datewatched"));
             }
             for (Date date : listDate){
                 if (date !=null && h.add(date)) {
                     String query = "SELECT moviename FROM movielist where datewatched = '" + date + "'";
-                    rsname = executeSql(query);
+                    conn2 = connect();
+                    stmt2 = conn2.createStatement();
+                    rsname = stmt2.executeQuery(query);
                     while (rsname.next()){
                         list.add(rsname.getString("moviename"));
                     }
@@ -155,10 +164,11 @@ public class MovieRandomizer {
             System.out.println(ex.getMessage());
         } finally {
             try { if (rs != null) { rs.close();} } catch (Exception e) { /* Ignored */ }
-            try { if (rs != null) { rsname.close(); } } catch (Exception e) { /* Ignored */ }
-            try { stmt.close(); } catch (Exception e) { /* Ignored */ }
-            try { conn.close(); } catch (Exception e) { /* Ignored */ }
-
+            try { if (rsname != null) { rsname.close(); } } catch (Exception e) { /* Ignored */ }
+            try { if (conn != null) { conn.close();} } catch (Exception e) { /* Ignored */ }
+            try { if (conn2 != null) { conn2.close();} } catch (Exception e) { /* Ignored */ }
+            try { if (stmt != null) { stmt.close(); } } catch (Exception e) { /* Ignored */ }
+            try { if (stmt2 != null) { stmt2.close(); } } catch (Exception e) { /* Ignored */ }
             System.out.println("Closed");
 
         }
@@ -171,7 +181,7 @@ public class MovieRandomizer {
         return DriverManager.getConnection(url, username, password);
     }
 
-    public static ResultSet executeSql(String SQL){
+    /*public static ResultSet executeSql(String SQL){
         ResultSet rs = null;
         Connection conn = null;
         Statement stmt = null;
@@ -182,9 +192,10 @@ public class MovieRandomizer {
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }
+
         return rs;
     }
-
+*/
     public static String GetDescription(String movie) throws IOException {
         String movieHyphen = TransformString(movie);
         String description = "";
@@ -270,7 +281,9 @@ public class MovieRandomizer {
         Connection conn = null;
         Statement stmt = null;
         try {
-            rs = executeSql(SQL);
+            conn = connect();
+            stmt = conn.createStatement();
+            rs = stmt.executeQuery(SQL);
             while (rs.next()){
                 year = rs.getInt("yearreleased");
             }
@@ -281,6 +294,7 @@ public class MovieRandomizer {
             try { rs.close(); } catch (Exception e) { /* Ignored */ }
             try { stmt.close(); } catch (Exception e) { /* Ignored */ }
             try { conn.close(); } catch (Exception e) { /* Ignored */ }
+
         }
         return year;
     }
@@ -291,7 +305,9 @@ public class MovieRandomizer {
         Connection conn = null;
         Statement stmt = null;
         try {
-            rs = executeSql(SQL);
+            conn = connect();
+            stmt = conn.createStatement();
+            rs = stmt.executeQuery(SQL);
             while (rs.next()){
                 url = rs.getString("url");
             }
