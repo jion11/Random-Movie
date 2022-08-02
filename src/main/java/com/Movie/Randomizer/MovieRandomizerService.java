@@ -28,7 +28,7 @@ public class MovieRandomizerService {
 
     public String getDirector() throws IOException { return "The Director is: " + MovieRandomizer.GetDirector(randMovie);}
 
-    public String getUrl() {return "Letterboxd link: " + MovieRandomizer.urlMovie();}
+    public String getUrl() {return MovieRandomizer.urlMovie();}
 
     public String insertDate() {MovieRandomizer.InsertDate(); return "Date inserted for " + randMovie;}
 
