@@ -15,6 +15,8 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.time.LocalDate;
+import java.util.Scanner;
+
 
 @SpringBootApplication
 
@@ -322,5 +324,31 @@ public class MovieRandomizer {
         return url;
     }
 
+    public static void deleteMovie(String movieToDelete){
+        /*Scanner myObj = new Scanner(System.in);
+        movieToDelete = myObj.nextLine();
+        */
+        String SQL = "UPDATE public.movielist SET datewatched = NULL::date WHERE moviename = " + "'" + movieToDelete + "'";
+        ResultSet rs = null;
+        Connection conn = null;
+        Statement stmt = null;
+        try {
+            conn = connect();
+            stmt = conn.createStatement();
+            rs = stmt.executeQuery(SQL);
+
+        } catch (SQLException ex) {
+            System.out.println(ex.getMessage());
+        } finally {
+            try { rs.close(); } catch (Exception e) { /* Ignored */ }
+            try { stmt.close(); } catch (Exception e) { /* Ignored */ }
+            try { conn.close(); } catch (Exception e) { /* Ignored */ }
+        }
+
+    }
+
+   /* UPDATE public.movielist SET datewatched = NULL::date WHERE
+    moviename = 'Shoplifters';
+    */
 
 }

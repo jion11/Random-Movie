@@ -9,6 +9,7 @@ import java.util.ArrayList;
 @Service
 public class MovieRandomizerService {
     String randMovie;
+    String movieToDelete;
 
     public String getRandomMovie() {
 
@@ -31,6 +32,8 @@ public class MovieRandomizerService {
     public String getUrl() {return MovieRandomizer.urlMovie();}
 
     public String insertDate() {MovieRandomizer.InsertDate(); return "Date inserted for " + randMovie;}
+
+    public void deleteMovie(String movieToDelete) {MovieRandomizer.deleteMovie(this.movieToDelete);}
 
 }
 

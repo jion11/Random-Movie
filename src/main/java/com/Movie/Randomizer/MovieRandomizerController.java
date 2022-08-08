@@ -63,6 +63,15 @@ public class MovieRandomizerController {
 
     }
 
+    @GetMapping("/movie/delete")
+
+    public void deleteMovie(String movieToDelete) {
+        movieRandomizerService.deleteMovie(movieToDelete);
+        //return movieRandomizerService.getMoviesWatched();
+
+
+    }
+
     @GetMapping("/movie/add")
 
      public String addDateToMovie() {
