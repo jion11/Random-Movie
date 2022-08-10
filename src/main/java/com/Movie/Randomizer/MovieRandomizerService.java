@@ -35,5 +35,7 @@ public class MovieRandomizerService {
 
     public void deleteMovie(String movieToDelete) {MovieRandomizer.deleteMovie(movieToDelete);}
 
+    public void addMovie(String movieToAdd, int year, String url ) {MovieRandomizer.addMovie(movieToAdd, year, url);}
+
 }
 

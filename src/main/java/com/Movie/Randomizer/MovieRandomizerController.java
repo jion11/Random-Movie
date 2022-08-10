@@ -56,6 +56,18 @@ public class MovieRandomizerController {
         return movieRandomizerService.getMovies();
     }
 
+    @PostMapping("/movie/addtolist")
+
+    public void addMovie(@RequestParam("movieToAdd") String movieToAdd,
+                         @RequestParam("year") int year,
+                         @RequestParam("url") String url)
+    {
+        System.out.println("Working");
+        movieRandomizerService.addMovie(movieToAdd, year, url);
+        System.out.println("Added: "+movieToAdd + year + url);
+
+    }
+
     @GetMapping("/movie/watched")
 
     public ArrayList<String> getMovieWatchedList() {

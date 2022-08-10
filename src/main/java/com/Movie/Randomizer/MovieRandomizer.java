@@ -332,6 +332,7 @@ public class MovieRandomizer {
         ResultSet rs = null;
         Connection conn = null;
         Statement stmt = null;
+
         try {
             conn = connect();
             stmt = conn.createStatement();
@@ -347,6 +348,33 @@ public class MovieRandomizer {
         }
 
     }
+
+    public static void addMovie(String movieToAdd, int year, String url  ){
+
+        String SQL = "INSERT INTO public.movielist(moviename, yearreleased, url) VALUES ("
+                +"'" + movieToAdd + "', "
+                +"'" + year + "', "
+                +"'" + url + "');";
+        ResultSet rs = null;
+        Connection conn = null;
+        Statement stmt = null;
+
+        try {
+            conn = connect();
+            stmt = conn.createStatement();
+            stmt.executeQuery(SQL);
+            System.out.println("Added: "+movieToAdd + year + url);
+
+        } catch (SQLException ex) {
+            System.out.println(ex.getMessage());
+        } finally {
+            try { rs.close(); } catch (Exception e) { /* Ignored */ }
+            try { stmt.close(); } catch (Exception e) { /* Ignored */ }
+            try { conn.close(); } catch (Exception e) { /* Ignored */ }
+        }
+    }
+
+
 
    /* UPDATE public.movielist SET datewatched = NULL::date WHERE
     moviename = 'Shoplifters';
