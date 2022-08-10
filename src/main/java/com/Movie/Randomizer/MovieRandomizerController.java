@@ -63,7 +63,7 @@ public class MovieRandomizerController {
 
     }
 
-    @PostMapping("/movie/delete")
+    @GetMapping("/movie/delete")
 
     public void deleteMovie(@RequestParam String movieToDelete) {
         movieRandomizerService.deleteMovie(movieToDelete);
