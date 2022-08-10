@@ -70,9 +70,10 @@ public class MovieRandomizerController {
 
     }
 
-    public void deleteMovie(@RequestParam String movieToDelete) {
+    public String deleteMovie(@RequestParam String movieToDelete) {
         System.out.println(movieToDelete);
         movieRandomizerService.deleteMovie(movieToDelete);
+        return movieToDelete;
         //return movieRandomizerService.getMoviesWatched();
 
 
