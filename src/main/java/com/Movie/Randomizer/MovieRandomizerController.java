@@ -66,8 +66,10 @@ public class MovieRandomizerController {
     @PostMapping("/movie/delete")
 
     public void deleteMovie(@RequestParam("movieToDelete") String movieToDelete) {
-        System.out.println(movieToDelete);
+        System.out.println("Working");
         movieRandomizerService.deleteMovie(movieToDelete);
+        System.out.println("Deleted: " +movieToDelete);
+
         //return movieRandomizerService.getMoviesWatched();
 
 

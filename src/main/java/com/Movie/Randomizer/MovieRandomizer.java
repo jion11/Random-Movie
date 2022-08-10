@@ -335,7 +335,8 @@ public class MovieRandomizer {
         try {
             conn = connect();
             stmt = conn.createStatement();
-            rs = stmt.executeQuery(SQL);
+            stmt.executeUpdate(SQL);
+            System.out.println("Deleted: "+movieToDelete);
 
         } catch (SQLException ex) {
             System.out.println(ex.getMessage());
